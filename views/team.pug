@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1#WelcomeMsg Create your Team!
+  .container.cnt2
+   .row.text-center.col-centered
+     .col-12
+       input#inpName(placeholder='Team name')
+       button.btnSave Save team
+     .col-12
+       button.btnGo(disabled='') Gotta Catch &apos;Em All
+     .col-12.listTeam
+       h3 Pokemon added:
+   #card
+     h4(style='text-align:center;margin-top:5px;') Meo too
+     #pkAdd
+       img#imgPK(src='../images/150.png')
+     .row.rowAtt
+       .col-6.text-center
+         h5 TYPES
+       .col-6.text-center
+         span psychic
+     .row.rowAtt
+       .col-6.text-center
+         h5 EXPERIENCE
+       .col-6.text-center
+         span 306
+     .row.rowAtt
+       .col-6.text-center
+         h5 ABILITIES
+       .col-6.text-center.abilities
+         span pressure, unnerve

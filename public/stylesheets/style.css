@@ -1,8 +1,165 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-a {
-  color: #00B7FF;
+
+body {
+  background:#ffffff;
+  background-image: url(../images/background.jpg);
+  font-family: Fantasy !important;
+  color: #2f2f2f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+
+footer {
+ position: absolute;
+ left: 0;
+ bottom: 0;
+ height: 50px;
+ width: 100%;
+ overflow: none;
+ text-align:center;
+ color: #ffc107;
+ background-color: #2f2f2f;
+}
+
+	#footerFirm{
+
+		color: #ffc107;
+		margin-top: 15px;
+	}
+
+	#WelcomeMsg {
+		text-align: center;
+		margin-top:20px;
+		color: black;
+		margin-top:50px;
+	}
+
+	 #btnDiv {
+		text-align: center;
+	 }
+
+	 .btn{
+		font-size:50px !important;
+		border: 2px solid !important;
+		border-radius: 20px !important;
+		background-color:#ffc107 !important;
+	 }
+
+
+	 .col {
+		text-align:center;
+	 }
+
+	 .cnt{
+    margin-top: 200px;
+		margin-bottom:200px;
+	 }
+
+	 .colTeam{
+		margin-bottom:50px;
+	 }
+
+
+   .cnt2{
+		margin-top: 50px;
+		margin-bottom:200px;
+
+	 }
+
+
+	 #inpName{
+		font-size:30px;
+		border: 2px solid;
+		border-radius: 20px;
+		background-color:#ffc107;
+		margin-bottom: 30px;
+
+	 }
+
+
+	 .listTeam{
+		margin-top:30px;
+	 }
+
+
+	  #pkAdd{
+
+		border-top: 1px solid;
+		border-bottom: 1px solid;
+		text-align:center;
+		background-color:white;
+
+
+	  }
+
+	  #card {
+	    background-color: #ffc107;
+		width:300px;
+		min-height:300px;
+		border-radius:25px;
+		border: 1px solid black;
+		margin: 0 auto;
+
+	  }
+
+
+	 #imgPK{
+		width: 150px;
+
+
+	 }
+
+
+	.rowAtt{
+		margin-top: 10px !important;
+	}
+
+
+	.abilities{
+		padding-right:20px;
+
+	}
+
+
+  #btnDiv {
+
+   text-align: center;
+
+
+  }
+
+  .btnSave{
+   font-size:30px;
+   border: 2px solid;
+   border-radius: 20px;
+   background-color:#ffc107;
+
+  }
+
+
+  .btnSave:active {
+    background-color:green;
+
+  }
+
+
+
+  .btnGo{
+   font-size:50px;
+   border: 2px solid;
+   border-radius: 20px;
+   background-color:#ffc107;
+   margin-top:50px;
+
+  }
+
+  .btnGo:active {
+    background-color:red;
+
+  }
