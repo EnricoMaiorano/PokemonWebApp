@@ -96,6 +96,7 @@ function saveTeam(){
 
 
       teamID = $('#inpName').val();
+      teamID = teamID.split(' ');
       var d = new Date();
     //  var now = d.getDate()+"-"+(d.getMonth() + 1)+"-"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
 
@@ -160,7 +161,7 @@ $( document ).ready(function() {
 
 function getTeam(teamName, img,experience){
   var teamcard = '<div class="col-4 colTeam text-center">'+
-        '<a class="aTeam" onclick="edit()" href="">'+
+        '<a class="aTeam" onclick="edit(id)" id="'+teamName+'"  href="#">'+
         '<div id="Team-card">'+
 			  '<h4 style="text-align:center;margin-top:5px;">'+teamName+'</h4>'+
 			  '<div id="imgES">'+
@@ -196,24 +197,120 @@ function getTeam(teamName, img,experience){
 
 
 
-function edit() {
 
-  $.ajax({
+function edit(id) {
 
-    url : 'http://localhost:3000/team/edit',
-    type : 'get',
-    data :  {
-      team : team,
-    },
 
-    success : function(data) {
-        window.location.href = 'http://localhost:3000/team/edit';
-    },
-    error : function(request,error)
-    {
 
-        console.log("Request: "+JSON.stringify(request));
-    }
+
+
+      window.location.href = 'http://localhost:3000/team/'+id+'/edit';
+
+
+
+
+}
+
+
+
+
+$( document ).ready(function() {
+  var pathname = window.location.pathname;
+
+  if (pathname.substring(pathname.length - 5) == '/edit') {
+
+
+      prova();
+
+  }
+
 });
+
+
+function prova(){
+
+
+      var pathname = window.location.pathname;
+      pathname = pathname.slice(0,-5);
+      pathname = pathname.split('/').pop();
+      pathname = pathname.toString();
+
+      console.log(pathname);
+      item = jQuery.parseJSON(localStorage.getItem(pathname));
+
+      console.log(item);
+
+
+      teamName = item[6];
+
+      img = [];
+      experience = 0;
+      types = [];
+      for (var z = 0; z < item.length-2; z++) {
+        //img[z] += item[z][0].img;
+        img.push(item[z][0].img)
+
+      }
+      for (var z = 0; z < item.length-2; z++) {
+        experience += item[z][0].experience;
+
+      }
+      for (var z = 0; z < item.length-2; z++) {
+
+        types.push(item[z][0].types + ' ');
+      }
+
+  var teamcard = '<div class="col-12 colTeam text-center">'+
+        '<div id="Team-card" name="'+teamName+'">'+
+        '<h4 id="newName" style="text-align:center;margin-top:5px;">'+teamName+'</h4>'+
+        '<div id="imgES">'+
+        '<img id="" src="'+img[0]+'" width="96" height="96">'+
+        '<img id="" src="'+img[1]+'"width="96" height="96">'+
+        '<img id="" src="'+img[2]+'"width="96" height="96">'+
+        '<img id="" src="'+img[3]+'"width="96" height="96">'+
+        '<img id="" src="'+img[4]+'"width="96" height="96">'+
+        '<img id="" src="'+img[5]+'"width="96" height="96">'+
+        '</div>'+
+        '<div class="row rowOv">'+
+          '<div class="col-6 text-center">'+
+          '<h5>EXPERIENCE</h5>'+
+        '</div>'+
+        '<div class="col-6 text-center">'+
+          '<span>'+experience+'</span>'+
+        '</div>'+
+        '</div>'+
+        '<div class="row rowBott">'+
+          '<div class="col-6 text-center">'+
+          '<h5>TYPES</h5>'+
+        '</div>'+
+        '<div class="col-6 text-center">'+
+          '<span>'+types+'</span>'+
+        '</div>'+
+        '</div>'+
+        '</div>'+
+
+        '</div>';
+
+
+  $(".teamlist").after(teamcard);
+
+}
+
+
+
+function changeName(){
+  name = $('#Team-card').attr("name");
+  newteamID = $('#inpChangeName').val();
+  newteamID = newteamID.split(' ');
+
+  item = jQuery.parseJSON(localStorage.getItem(name));
+  item[6] = newteamID;
+  $('#newName').text(newteamID);
+  $('#Team-card').attr('name',newteamID);
+  localStorage.setItem(newteamID,JSON.stringify(item));
+  localStorage.removeItem(name);
+  $('#inpChangeName').val('');
+  //location.reload();
+
 
 }

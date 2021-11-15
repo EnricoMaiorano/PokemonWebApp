@@ -2,5 +2,8 @@ extends layout
 
 block content
   h1#WelcomeMsg Edit your team
-  .container.cnt
+  .container
    .row.teamlist
+    .col-12.text-center
+      input#inpChangeName(placeholder='New Team name')
+      button.btnChange(onclick="changeName()") Save

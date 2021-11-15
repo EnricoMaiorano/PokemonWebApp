@@ -73,6 +73,9 @@ footer {
 	 }
 
 
+
+
+
 	 #inpName{
 		font-size:30px;
 		border: 2px solid;
@@ -81,6 +84,18 @@ footer {
 		margin-bottom: 30px;
 
 	 }
+
+
+   #inpChangeName {
+    font-size:30px;
+ 		border: 2px solid;
+ 		border-radius: 20px;
+ 		background-color:#ffc107;
+ 		margin-bottom: 30px;
+    margin-top: 40px;
+
+   }
+
 
 
 	 .listTeam{
@@ -132,6 +147,16 @@ footer {
    text-align: center;
 
 
+  }
+
+
+  .btnChange{
+    font-size:30px;
+    border: 2px solid;
+    border-radius: 20px;
+    background-color:#ffc107;
+    margin-top: 20px;
+    margin-left: 20px;
   }
 
   .btnSave{
