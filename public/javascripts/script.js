@@ -43,9 +43,10 @@ function getPokemon(){
                 }];
 
 
-          //id = id + 1;
+
 
           team.push(pokemon);
+
           getData(name,img, types, experience, abilities);
           if (click == 6) {
             $('.btnGo').attr('disabled',true);
@@ -90,10 +91,129 @@ function saveTeam(){
   if($('#inpName').val() == ''){
      alert('Insert Name');
    }else{
-      nameTeam = $('#inpName').val();
-      team.unshift(nameTeam);
-      localStorage.setItem('team',JSON.stringify(team));
-      team = [];
+
+
+
+
+      teamID = $('#inpName').val();
+      var d = new Date();
+    //  var now = d.getDate()+"-"+(d.getMonth() + 1)+"-"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+
+
+      team.push(teamID,d);
+
+
+      //localStorage.setItem(numofTeam,JSON.stringify(team));
+
+      localStorage.setItem(teamID,JSON.stringify(team));
+      //team = [];
       location.reload();
+
+
+
+
+
     }
+}
+
+
+
+
+$( document ).ready(function() {
+  var pathname = window.location.pathname;
+
+  if (pathname == '/team/list') {
+
+    console.log(jQuery.parseJSON(localStorage.getItem(localStorage.key(1))));
+
+    for (var i = 0 ; i < localStorage.length ; i++) {
+
+        item = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
+
+        teamName = item[6];
+        img = [];
+        experience = 0;
+        types = [];
+        for (var z = 0; z < item.length-2; z++) {
+          //img[z] += item[z][0].img;
+          img.push(item[z][0].img)
+
+        }
+        for (var z = 0; z < item.length-2; z++) {
+          experience += item[z][0].experience;
+
+        }
+        for (var z = 0; z < item.length-2; z++) {
+
+          types.push(item[z][0].types + ' ');
+        }
+
+
+
+
+         getTeam(teamName,img,experience,types);
+    }
+  }
+});
+
+
+
+function getTeam(teamName, img,experience){
+  var teamcard = '<div class="col-4 colTeam text-center">'+
+        '<a class="aTeam" onclick="edit()" href="">'+
+        '<div id="Team-card">'+
+			  '<h4 style="text-align:center;margin-top:5px;">'+teamName+'</h4>'+
+			  '<div id="imgES">'+
+        '<img id="" src="'+img[0]+'" width="96" height="96">'+
+        '<img id="" src="'+img[1]+'"width="96" height="96">'+
+        '<img id="" src="'+img[2]+'"width="96" height="96">'+
+        '<img id="" src="'+img[3]+'"width="96" height="96">'+
+        '<img id="" src="'+img[4]+'"width="96" height="96">'+
+        '<img id="" src="'+img[5]+'"width="96" height="96">'+
+			  '</div>'+
+			  '<div class="row rowOv">'+
+			    '<div class="col-6 text-center">'+
+					'<h5>EXPERIENCE</h5>'+
+				'</div>'+
+				'<div class="col-6 text-center">'+
+					'<span>'+experience+'</span>'+
+				'</div>'+
+			  '</div>'+
+			  '<div class="row rowBott">'+
+			    '<div class="col-6 text-center">'+
+					'<h5>TYPES</h5>'+
+				'</div>'+
+				'<div class="col-6 text-center">'+
+					'<span>'+types+'</span>'+
+				'</div>'+
+			  '</div>'+
+			  '</div>'+
+        '</a>'+
+        '</div>';
+  $(".teamlist").append(teamcard);
+}
+
+
+
+
+function edit() {
+
+  $.ajax({
+
+    url : 'http://localhost:3000/team/edit',
+    type : 'get',
+    data :  {
+      team : team,
+    },
+
+    success : function(data) {
+        window.location.href = 'http://localhost:3000/team/edit';
+    },
+    error : function(request,error)
+    {
+
+        console.log("Request: "+JSON.stringify(request));
+    }
+});
+
 }

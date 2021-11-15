@@ -21,6 +21,10 @@ router.get('/list', function(req, res, next) {
 
 });
 
+router.get('/edit', function(req, res) {
+
+  res.render('edit', { title: 'edit'});
+})
 
 
 

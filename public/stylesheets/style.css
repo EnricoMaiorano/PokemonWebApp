@@ -162,5 +162,44 @@ footer {
 
   .btnGo:active {
     background-color:red;
+  }
+
+
+  #Team-card{
+		background-color: #ffc107;
+		width:320px;
+		min-height:300px;
+		border-radius:25px;
+		border: 1px solid black;
+		margin: 0 auto;
+
+	 }
+
+
+	#imgES {
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+		background-color: white;
+	}
+
+	.rowOv {
+		margin-top:20px !important;
+		margin-bottom:20px !important;
+	}
+
+	.rowBott {
+		margin-bottom:20px !important;
+	}
+
+  .aTeam{
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+
+  }
+
+  .aTeam:hover{
+    cursor: pointer;
+    color: black;
 
   }
