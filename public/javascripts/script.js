@@ -295,8 +295,13 @@ function editTeam(){
 
 
 function changeName(){
+
   name = $('#Team-card').attr("name");
   newteamID = $('#inpChangeName').val();
+  if (newteamID == "") {
+      alert("insert name")
+      exit;
+  }
   newteamID = newteamID.split(' ');
 
   item = jQuery.parseJSON(localStorage.getItem(name));
