@@ -57,8 +57,7 @@ footer {
 	 }
 
 	 .cnt{
-    margin-top: 200px;
-		margin-bottom:200px;
+      margin: 200px 0 200px 0;
 	 }
 
 	 .colTeam{
@@ -241,3 +240,34 @@ footer {
     --bs-gutter-x: none !important;
 
   }
+
+
+  #filtrer{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    width: 105%;
+
+}
+
+.btnFilt{
+
+  margin: 50px 20px 0 0;
+  font-size: 20px !important;
+  border: 2px
+  solid !important;
+  border-radius: 20px !important;
+  background-color: #ffc107 !important;
+  min-width: 100px;
+
+
+}
+
+.btnFilt.active {
+  background-color: red !important;
+
+}
+
+#myBtnContainer {
+  max-width: 102%;
+}

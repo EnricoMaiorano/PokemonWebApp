@@ -6,6 +6,17 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+/**
+ *
+ */
+Object.size = function(obj) {
+    var size = 0,
+      key;
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 /**
  *
@@ -89,38 +100,80 @@ function saveTeam(){
  *
  */
 $( document ).ready(function() {
+
+
+
   var pathname = window.location.pathname;
+
+  var data = {};
+  var teams2 = [];
+  for (var i = 0; i < localStorage.length; i++) {
+
+    t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
+    teams2[i] = t;
+    data[t[7]] = t;
+
+  }
+
+
+  teams2.sort(function(a,b){
+
+  return new Date(b[7]) - new Date(a[7]);
+});
+  teams2.reverse()
+
+
   if (pathname == '/team/list') {
-    for (var i = 0 ; i < localStorage.length ; i++) {
-        item = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
-        teamName = item[6];
+    $.get( "https://pokeapi.co/api/v2/type/"  , function( data ) {
+        console.log(data.results.length);
+        alltypes = [];
+        for (var i = 0; i < data.results.length; i++) {
+          alltypes[i] = data.results[i].name;
+          $('#myBtnContainer').append('<button class="btnFilt"  onclick="">'+ data.results[i].name + '</button>')
+        }
+
+    });
+
+    vrb = 0;
+    alltypes = [];
+    for (var i = 0 ; i < teams2.length ; i++) {
+
+        teamName = teams2[i][6];
         img = [];
         experience = 0;
         types = [];
-        for (var j = 0; j < item.length-2; j++) {
-            img.push(item[j][0].img);
+        types2 = [];
+        for (var j = 0; j < 6; j++) {
+            img.push(teams2[0 + vrb][j][0].img);
         }
-        for (var s = 0; s < item.length-2; s++) {
-            experience += item[s][0].experience;
+        for (var s = 0; s < 6; s++) {
+            experience += teams2[0 + vrb][s][0].experience;
         }
-        for (var x = 0; x < item.length-2; x++) {
-            types.push(item[x][0].types + "\n");
+        for (var x = 0; x < 6; x++) {
+            types.push(teams2[0 + vrb][x][0].types + "\n");
+            types2.push(teams2[0 + vrb][x][0].types);
         }
+        alltypes[i] = types2;
+
         getTeam(teamName,img,experience,types);
+        vrb += 1;
     }
+
   }
+
 });
 
 /**
  *
  */
-function getTeam(teamName, img,experience){
+function getTeam(teamName, img,experience,types){
+
   var teamcard = '<div class="col-4 colTeam text-center">'+
         '<a class="aTeam" onclick="edit(id)" id="'+teamName+'"  href="#">'+
         '<div id="Team-card">'+
 			  '<h4 style="text-align:center;margin-top:5px;">'+teamName+'</h4>'+
 			  '<div id="imgES">'+
-        '<img id="" src="'+img[0]+'" width="96" height="96">'+
+        '<img id="" src="'+img[0]+'"width="96" height="96">'+
         '<img id="" src="'+img[1]+'"width="96" height="96">'+
         '<img id="" src="'+img[2]+'"width="96" height="96">'+
         '<img id="" src="'+img[3]+'"width="96" height="96">'+
@@ -140,7 +193,7 @@ function getTeam(teamName, img,experience){
 					'<h5>TYPES</h5>'+
 				'</div>'+
 				'<div style="padding-left:0px;padding-right:20px;" class="col-6 text-center">'+
-					'<span class="types" >'+types+'</span>'+
+					'<span class="types" >'+types+'</br></span>'+
 				'</div>'+
 			  '</div>'+
 			  '</div>'+
