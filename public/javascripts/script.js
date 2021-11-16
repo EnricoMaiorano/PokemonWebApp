@@ -3,6 +3,11 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+
 
 click = 0;
 team = [];
@@ -12,26 +17,35 @@ id = 0;
 
 
 function getPokemon(){
-      click += 1;
-
-        $.get( "https://pokeapi.co/api/v2/pokemon/"+   Math.floor(Math.random() * 899), function( data ) {
-        number = data.id;
+        click += 1;
+        number = getRandomInt(899);
+        $.get( "https://pokeapi.co/api/v2/pokemon/" + number  , function( data ) {
+        //number = data.id;
         name = data.name ;
         experience =  data.base_experience ;
         var abilities = [];
         var types = [];
         img = data.sprites.front_default;
+
+
+
+
         for (let i = 0; i < data.types.length; i++) {
-            //abilities  += data.abilities[i].ability.name;
+
+
             types.push(data.types[i].type.name);
+            console.log(data.types[i].type.name);
+
         }
         for (let i = 0; i < data.abilities.length; i++) {
-            //abilities  += data.abilities[i].ability.name;
+
             abilities.push(data.abilities[i].ability.name + '  ');
         }
 
 
-          //var pokemon = [number, name, abilities, types, img, experience];
+
+
+
           var pokemon =
                  [{
                     "number": number,
@@ -44,13 +58,16 @@ function getPokemon(){
 
 
 
-
+          //console.log(pokemon);
           team.push(pokemon);
+
+
 
           getData(name,img, types, experience, abilities);
           if (click == 6) {
             $('.btnGo').attr('disabled',true);
-            setTimeout(function() { alert("completed!\nsave your team"); }, 600);
+              $('.listTeam').append('<h1 style="margin-top:20px;">completed!\nsave your team</h1>');
+            //setTimeout(function() { alert("completed!\nsave your team"); }, 600);
             $('.btnSave').attr('disabled',false);
           }
 
@@ -91,29 +108,14 @@ function saveTeam(){
   if($('#inpName').val() == ''){
      alert('Insert Name');
    }else{
-
-
-
-
       teamID = $('#inpName').val();
       teamID = teamID.split(' ');
       var d = new Date();
-    //  var now = d.getDate()+"-"+(d.getMonth() + 1)+"-"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-
-
       team.push(teamID,d);
 
-
-      //localStorage.setItem(numofTeam,JSON.stringify(team));
-
       localStorage.setItem(teamID,JSON.stringify(team));
-      //team = [];
+      team = [];
       location.reload();
-
-
-
-
-
     }
 }
 
@@ -125,7 +127,7 @@ $( document ).ready(function() {
 
   if (pathname == '/team/list') {
 
-    console.log(jQuery.parseJSON(localStorage.getItem(localStorage.key(1))));
+    //console.log(jQuery.parseJSON(localStorage.getItem(localStorage.key(1))));
 
     for (var i = 0 ; i < localStorage.length ; i++) {
 
@@ -145,14 +147,17 @@ $( document ).ready(function() {
 
         }
         for (var z = 0; z < item.length-2; z++) {
-
-          types.push(item[z][0].types + ' ');
+          types.push(item[z][0].types + "\n");
         }
 
 
-
-
          getTeam(teamName,img,experience,types);
+
+
+
+
+
+
     }
   }
 });
@@ -181,11 +186,11 @@ function getTeam(teamName, img,experience){
 				'</div>'+
 			  '</div>'+
 			  '<div class="row rowBott">'+
-			    '<div class="col-6 text-center">'+
+			    '<div  class="col-6 text-center">'+
 					'<h5>TYPES</h5>'+
 				'</div>'+
-				'<div class="col-6 text-center">'+
-					'<span>'+types+'</span>'+
+				'<div style="padding-left:0px;padding-right:20px;" class="col-6 text-center">'+
+					'<span class="types" >'+types+'</span>'+
 				'</div>'+
 			  '</div>'+
 			  '</div>'+
@@ -199,16 +204,7 @@ function getTeam(teamName, img,experience){
 
 
 function edit(id) {
-
-
-
-
-
       window.location.href = 'http://localhost:3000/team/'+id+'/edit';
-
-
-
-
 }
 
 
@@ -220,14 +216,14 @@ $( document ).ready(function() {
   if (pathname.substring(pathname.length - 5) == '/edit') {
 
 
-      prova();
+      editTeam();
 
   }
 
 });
 
 
-function prova(){
+function editTeam(){
 
 
       var pathname = window.location.pathname;
@@ -283,7 +279,7 @@ function prova(){
           '<div class="col-6 text-center">'+
           '<h5>TYPES</h5>'+
         '</div>'+
-        '<div class="col-6 text-center">'+
+        '<div style="padding-left:0px;padding-right:20px;" class="col-6 text-center">'+
           '<span>'+types+'</span>'+
         '</div>'+
         '</div>'+

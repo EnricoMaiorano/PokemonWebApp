@@ -1,7 +1,15 @@
 extends layout
 
 block content
-  h1#WelcomeMsg Edit your team
+  .container
+    .row.justify-content-md-center
+      .col.col-lg-2
+        a(href="/team/list").rowWLC
+          button.btnBack Back
+
+      .col-md-auto
+        h1#WelcomeMsg Edit your Team!
+      .col.col-lg-2
   .container
    .row.teamlist
     .col-12.text-center

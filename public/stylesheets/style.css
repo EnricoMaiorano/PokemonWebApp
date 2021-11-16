@@ -168,6 +168,14 @@ footer {
 
   }
 
+  .btnBack {
+    font-size:30px;
+    border: 2px solid;
+    border-radius: 20px;
+    background-color:#ffc107;
+    margin-top: 50px;
+  }
+
 
   .btnSave:active {
     background-color:green;
@@ -193,7 +201,7 @@ footer {
   #Team-card{
 		background-color: #ffc107;
 		width:320px;
-		min-height:300px;
+		min-height:425px;
 		border-radius:25px;
 		border: 1px solid black;
 		margin: 0 auto;
@@ -226,5 +234,10 @@ footer {
   .aTeam:hover{
     cursor: pointer;
     color: black;
+
+  }
+
+  .rowWLC{
+    --bs-gutter-x: none !important;
 
   }
