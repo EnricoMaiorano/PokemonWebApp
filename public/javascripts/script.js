@@ -43,7 +43,6 @@ function getPokemon(){
     img = data.sprites.front_default;
     for (let i = 0; i < data.types.length; i++) {
         types.push(data.types[i].type.name);
-        console.log(data.types[i].type.name);
     }
     for (let i = 0; i < data.abilities.length; i++) {
         abilities.push(data.abilities[i].ability.name + ' ');
