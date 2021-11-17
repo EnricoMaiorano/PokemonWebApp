@@ -46,7 +46,7 @@ function getPokemon(){
         console.log(data.types[i].type.name);
     }
     for (let i = 0; i < data.abilities.length; i++) {
-        abilities.push(data.abilities[i].ability.name + '  ');
+        abilities.push(data.abilities[i].ability.name + ' ');
     }
     var pokemon =
         [{
@@ -151,11 +151,23 @@ if (pathname == '/team/list') {
           experience += teams2[0 + vrb][s][0].experience;
       }
       for (var x = 0; x < 6; x++) {
-          types.push(teams2[0 + vrb][x][0].types + "\n");
-          types2.push(teams2[0 + vrb][x][0].types);
+
+
+          if (teams2[0 + vrb][x][0].types.length == 2 ) {
+            for (var q = 0; q < 2; q++) {
+                types2.push(teams2[0 + vrb][x][0].types[q].toString());
+            }
+          }else {
+            types2.push(teams2[0 + vrb][x][0].types.toString());
+
+          }
       }
       alltypes[i] = types2;
-      getTeam(teamName,img,experience,types,filtrer);
+      arr = alltypes[i];
+      var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
+      unique = unique.join(" , ");
+      getTeam(teamName,img,experience,unique,filtrer);
+      alltypes = [];
       vrb += 1;
   }
  }
@@ -230,16 +242,32 @@ function editTeam(){
       img = [];
       experience = 0;
       types = [];
+      alltypes = [];
+      vrb = 0;
       for (var i = 0; i < item.length-2; i++) {
         img.push(item[i][0].img);
       }
       for (var s = 0; s < item.length-2; s++) {
         experience += item[s][0].experience;
       }
-      for (var j = 0; j < item.length-2; j++) {
-        types.push(item[j][0].types + ' ');
+
+      for (var x = 0; x < 6; x++) {
+        if (item[x][0].types.length == 2) {
+          for (var q = 0; q < 2; q++) {
+              types.push(item[x][0].types[q].toString());
+          }
+          }else {
+              types.push(item[x][0].types.toString());
+          }
+        alltypes[i] = types;
+        arr = alltypes[i];
+        var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
+        unique = unique.join(" , ");
       }
-      var teamcard = '<div class="col-12 colTeam text-center">'+
+
+
+
+      var teamcard = '<div class="col-12 colTeam text-center" style="margin-top:50px;">'+
                      '<div id="Team-card" name="'+teamName+'">'+
                      '<h4 id="newName" style="text-align:center;margin-top:5px;">'+teamName+'</h4>'+
                      '<div id="imgES">'+
@@ -263,7 +291,7 @@ function editTeam(){
                      '<h5>TYPES</h5>'+
                      '</div>'+
                      '<div style="padding-left:0px;padding-right:20px;" class="col-6 text-center">'+
-                     '<span>'+types+'</span>'+
+                     '<span>'+unique+'</span>'+
                      '</div>'+
                      '</div>'+
                      '</div>'+
@@ -308,62 +336,85 @@ function changeName(){
 /**
  * Get data of teams by the filtrer
  */
-function getFiltrer(id){
-  if (localStorage.length == 0) {
-      $('.teamlist').empty();
-      $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
-  }else
-  $(".teamlist").empty();
-  $(".btnFilt").removeClass('active');
-  $("#"+id).addClass( "active" );
-  if ($(".btnFilt").hasClass("active") == false) {
-    $(".btnFilt").css("background-color", "#ffc107");
-  }
-  var data = {};
-  var teams2 = [];
-  for (var i = 0; i < localStorage.length; i++) {
-    t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
-    teams2[i] = t;
-    data[t[7]] = t;
-  }
-  teams2.sort(function(a,b){
-  return new Date(b[7]) - new Date(a[7]);
-  });
-  teams2.reverse()
-  vrb = 0;
-  alltypes = [];
-  new1 = [];
-  for (var i = 0; i < teams2.length; i++) {
-    teamName = teams2[i][6];
-    img = [];
-    experience = 0;
-    types = [];
-    types2 = [];
-    for (var j = 0; j < 6; j++) {
-        img.push(teams2[i + vrb][j][0].img);
-    }
-    for (var s = 0; s < 6; s++) {
-        experience += teams2[i + vrb][s][0].experience;
-    }
-    for (var x = 0; x < 6; x++) {
-        types.push(teams2[i + vrb][x][0].types + "\n");
-        types2.push(teams2[i + vrb][x][0].types);
-    }
-    for (var x = 0; x < 6; x++) {
-        alltypes.push(teams2[i][x][0].types);
-    }
-    for (var s = 0; s < alltypes.length; s++) {
-      if (alltypes[s].includes(id) == true) {
-          getTeamFiltrered(teamName, img,experience,types);
-          break;
-      }else {}
-    }
-    alltypes = [];
-  }
-    if (  $(".teamlist").is(':empty')) {
-          $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
-    }
-}
+ function getFiltrer(id){
+   if (localStorage.length == 0) {
+       $('.teamlist').empty();
+       $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
+   }else
+   $(".teamlist").empty();
+   $(".btnFilt").removeClass('active');
+   $("#"+id).addClass( "active" );
+   if ($(".btnFilt").hasClass("active") == false) {
+     $(".btnFilt").css("background-color", "#ffc107");
+   }
+   var data = {};
+   var teams2 = [];
+   for (var i = 0; i < localStorage.length; i++) {
+     t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
+     teams2[i] = t;
+     data[t[7]] = t;
+   }
+   teams2.sort(function(a,b){
+   return new Date(b[7]) - new Date(a[7]);
+   });
+   teams2.reverse()
+   vrb = 0;
+   alltypes = [];
+   new1 = [];
+   for (var i = 0; i < teams2.length; i++) {
+     teamName = teams2[i][6];
+     img = [];
+     experience = 0;
+     types = [];
+     types2 = [];
+     all = [];
+     for (var j = 0; j < 6; j++) {
+         img.push(teams2[i + vrb][j][0].img);
+     }
+     for (var s = 0; s < 6; s++) {
+         experience += teams2[i + vrb][s][0].experience;
+     }/**
+     for (var x = 0; x < 6; x++) {
+         types.push(teams2[i + vrb][x][0].types + "\n");
+         types2.push(teams2[i + vrb][x][0].types);
+
+     }*/
+
+     for (var x = 0; x < 6; x++) {
+
+       types.push(teams2[i + vrb][x][0].types + "\n");
+
+       if (teams2[i + vrb][x][0].types.length == 2 ) {
+         for (var q = 0; q < 2; q++) {
+             types2.push(teams2[i + vrb][x][0].types[q].toString());
+
+         }
+       }else {
+         types2.push(teams2[i + vrb][x][0].types.toString());
+
+       }
+     }
+     all[i] = types2;
+     arr = all[i];
+     var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
+     unique = unique.join(" ,");
+     for (var x = 0; x < 6; x++) {
+         alltypes.push(teams2[i][x][0].types);
+     }
+     for (var s = 0; s < alltypes.length; s++) {
+       if (alltypes[s].includes(id) == true) {
+           getTeamFiltrered(teamName, img,experience,unique);
+           break;
+       }else {}
+     }
+     alltypes = [];
+
+
+   }
+     if (  $(".teamlist").is(':empty')) {
+           $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
+     }
+ }
 
 /**
  * Print all teams filtrered
