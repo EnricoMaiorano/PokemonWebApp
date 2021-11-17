@@ -13,7 +13,7 @@ block content
   .container.cntList
    .row.teamlist
     .col-12.text-center
-      input#inpChangeName(placeholder='New Team name')
+      input#inpChangeName(placeholder='New Team name' maxlength="20")
       button.btnChange(onclick="changeName()") Save
       script.
         $("input#inpChangeName").on({

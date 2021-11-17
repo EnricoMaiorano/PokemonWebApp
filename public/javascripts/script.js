@@ -25,7 +25,7 @@ function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
-click = 0;
+var click = 0;
 team = [];
 id = 0;
 
@@ -33,7 +33,15 @@ id = 0;
  *
  */
 function getPokemon(){
-    click += 1;
+    click ++;
+    if (click == 6) {
+      //$('.btnGo').removeAttr("onclick");
+      $('.btnGo').attr('disabled', true);
+      $('.listTeam').append('<h1 style="margin-top:20px;">completed!\nsave your team</h1>');
+      $('.btnSave').attr('disabled',false);
+
+    }
+
     number = getRandomInt(899);
     $.get( "https://pokeapi.co/api/v2/pokemon/" + number  , function( data ) {
     //number = data.id;
@@ -59,12 +67,10 @@ function getPokemon(){
           "experience": experience
         }];
           team.push(pokemon);
+
+
           getData(name,img, types, experience, abilities);
-          if (click == 6) {
-            $('.btnGo').attr('disabled',true);
-            $('.listTeam').append('<h1 style="margin-top:20px;">completed!\nsave your team</h1>');
-            $('.btnSave').attr('disabled',false);
-          }
+
         });
 }
 
@@ -75,7 +81,7 @@ function getData(name, img, types, experience, abilities) {
                 "</div>"+"<div class='col-6 text-center'>"+"<span>"+experience+"</span>"+"</div>"+"</div>"+"<div class='row rowAtt'>"+"<div class='col-6 text-center'>"+"<h5>ABILITIES</h5>"+"</div>"+
                 "<div class='col-6 text-center abilities'>"+"<span>"+abilities+"</span>"+"</div>"+"</div>";
     $(".listTeam").after(card);
-    $("#card").hide().fadeIn("slow");
+    $("#card").hide().fadeIn("fast");
 }
 
 /**
@@ -97,11 +103,23 @@ function saveTeam(){
 }
 
 function showAll(){
+
+
+
+
   $(".teamlist").empty();
   $(".btnFilt").removeClass('active');
   $("#showAll").addClass( "active" );
   if ($(".btnFilt").hasClass("active") == false) {
     $(".btnFilt").css("background-color", "#ffc107");
+  }
+
+
+  if (localStorage.length === 0) {
+      $('.teamlist').empty();
+      $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
+      return;
+
   }
 var pathname = window.location.pathname;
 
@@ -114,6 +132,8 @@ for (var i = 0; i < localStorage.length; i++) {
   data[t[7]] = t;
 
 }
+
+
 
 
 teams2.sort(function(a,b){
@@ -291,6 +311,20 @@ function editTeam(){
  *
  */
 function changeName(){
+
+  allName = [];
+
+  for (var i = 0; i < localStorage.length; i++) {
+
+    t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
+    allName[i] = t[6].toString();
+
+    //console.log(t[6]);
+  }
+
+
+
+
     name = $('#Team-card').attr("name");
     newteamID = $('#inpChangeName').val();
     oldname = $('#newName').text();
@@ -300,7 +334,13 @@ function changeName(){
     }else if ( oldname == newteamID ) {
       alert("Insert new name");
       return;
+    }else if (allName.includes(newteamID)) {
+        alert('Name already exist!');
+        return;
     }
+
+
+
     newteamID = newteamID.split(' ');
     item = jQuery.parseJSON(localStorage.getItem(name));
     item[6] = newteamID;
@@ -309,10 +349,18 @@ function changeName(){
     localStorage.setItem(newteamID,JSON.stringify(item));
     localStorage.removeItem(name);
     $('#inpChangeName').val('');
+    location.href = '/team/'+newteamID+'/edit';
 }
 
 
 function getFiltrer(id){
+
+  if (localStorage.length == 0) {
+      $('.teamlist').empty();
+      $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
+
+  }else
+
   $(".teamlist").empty();
   $(".btnFilt").removeClass('active');
   $("#"+id).addClass( "active" );
@@ -340,7 +388,7 @@ function getFiltrer(id){
   vrb = 0;
   alltypes = [];
   new1 = [];
-  
+
 
   for (var i = 0; i < teams2.length; i++) {
 
@@ -372,21 +420,21 @@ function getFiltrer(id){
     for (var s = 0; s < alltypes.length; s++) {
 
       if (alltypes[s].includes(id) == true) {
-
-
-
-          //$('#filtrer').append(teamName + experience);
-
           getTeamFiltrered(teamName, img,experience,types);
-            break;
-      }else{
-
-      }
+          break;
+      }else {}
     }
 
     alltypes = [];
 
   }
+
+
+    if (  $(".teamlist").is(':empty')) {
+          $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
+    }
+
+
 
 }
 
