@@ -1,15 +1,12 @@
 
 /**
- *
+ * Get random number up to 899
  */
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-/**
- *
- */
-Object.size = function(obj) {
+ Object.size = function(obj) {
     var size = 0,
       key;
     for (key in obj) {
@@ -18,30 +15,24 @@ Object.size = function(obj) {
     return size;
 };
 
-/**
- *
- */
-function onlyUnique(value, index, self) {
+ function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
-}
+ }
 
 var click = 0;
 team = [];
 id = 0;
 
 /**
- *
+ * Get pokemon data from API
  */
 function getPokemon(){
     click ++;
-    if (click == 6) {
-      //$('.btnGo').removeAttr("onclick");
+     if (click == 6) {
       $('.btnGo').attr('disabled', true);
       $('.listTeam').append('<h1 style="margin-top:20px;">completed!\nsave your team</h1>');
       $('.btnSave').attr('disabled',false);
-
-    }
-
+     }
     number = getRandomInt(899);
     $.get( "https://pokeapi.co/api/v2/pokemon/" + number  , function( data ) {
     //number = data.id;
@@ -66,14 +57,14 @@ function getPokemon(){
           "img": img,
           "experience": experience
         }];
-          team.push(pokemon);
-
-
-          getData(name,img, types, experience, abilities);
-
-        });
+    team.push(pokemon);
+    getData(name,img, types, experience, abilities);
+  });
 }
 
+/**
+ * Keep the data of pokemon and print the card
+ */
 function getData(name, img, types, experience, abilities) {
     var card = "<div id='card' style='margin-top:50px;'>"+
                 "<h4 style='text-align:center;margin-top:5px;'>"+ name +"</h4>"+"<div id='pkAdd'>"+"<img id='imgPK' src='"+img+"'>"+"</div>"+"<div class='row rowAtt'>"+"<div class='col-6 text-center'>"+
@@ -85,7 +76,7 @@ function getData(name, img, types, experience, abilities) {
 }
 
 /**
- *
+ * Save the team created in localStorage
  */
 function saveTeam(){
     if($('#inpName').val() == ''){
@@ -102,55 +93,52 @@ function saveTeam(){
     }
 }
 
+/**
+ * Print the button filter and show all teams created
+ */
+$( document ).ready(function() {
+  var pathname = window.location.pathname;
+  if (pathname == '/team/list') {
+    $.get( "https://pokeapi.co/api/v2/type/"  , function( data ) {
+        for (var i = 0; i < data.results.length; i++) {
+          $('#myBtnContainer').append('<button class="btnFilt" id="'+data.results[i].name+'"  onclick="getFiltrer(id)">'+ data.results[i].name + '</button>')
+        }
+    });
+  showAll();
+  }
+});
+
+/**
+ * Show all teams created
+ */
 function showAll(){
-
-
-
-
   $(".teamlist").empty();
   $(".btnFilt").removeClass('active');
   $("#showAll").addClass( "active" );
   if ($(".btnFilt").hasClass("active") == false) {
     $(".btnFilt").css("background-color", "#ffc107");
   }
-
-
   if (localStorage.length === 0) {
       $('.teamlist').empty();
       $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
       return;
-
   }
 var pathname = window.location.pathname;
-
 var data = {};
 var teams2 = [];
 for (var i = 0; i < localStorage.length; i++) {
-
   t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
   teams2[i] = t;
   data[t[7]] = t;
-
 }
-
-
-
-
 teams2.sort(function(a,b){
-
 return new Date(b[7]) - new Date(a[7]);
 });
 teams2.reverse()
-
-
 if (pathname == '/team/list') {
-
-
-
   vrb = 0;
   alltypes = [];
   for (var i = 0 ; i < teams2.length ; i++) {
-
       teamName = teams2[i][6];
       img = [];
       experience = 0;
@@ -167,43 +155,16 @@ if (pathname == '/team/list') {
           types2.push(teams2[0 + vrb][x][0].types);
       }
       alltypes[i] = types2;
-
       getTeam(teamName,img,experience,types,filtrer);
       vrb += 1;
   }
-
+ }
 }
-}
-
 
 /**
- *
+ * Print the team card
  */
-$( document ).ready(function() {
-
-  var pathname = window.location.pathname;
-  if (pathname == '/team/list') {
-  $.get( "https://pokeapi.co/api/v2/type/"  , function( data ) {
-
-    //  alltypes = [];
-      for (var i = 0; i < data.results.length; i++) {
-        //alltypes[i] = data.results[i].name;
-        $('#myBtnContainer').append('<button class="btnFilt" id="'+data.results[i].name+'"  onclick="getFiltrer(id)">'+ data.results[i].name + '</button>')
-      }
-
-  });
-
-  showAll();
-}
-});
-
-/**
- *
- */
-function getTeam(teamName, img,experience,types){
-
-
-
+ function getTeam(teamName, img,experience,types){
   var teamcard = '<div class="col-4 colTeam text-center">'+
         '<a class="aTeam" onclick="edit(id)" id="'+teamName+'"  href="#">'+
         '<div id="Team-card">'+
@@ -235,19 +196,20 @@ function getTeam(teamName, img,experience,types){
 			  '</div>'+
         '</a>'+
         '</div>';
-
-
-  $(".teamlist").append(teamcard);
+   $(".teamlist").append(teamcard);
 
 }
 
-
-
-
+/**
+ *  Set the pathname
+ */
 function edit(id) {
       window.location.href = 'http://localhost:3000/team/'+id+'/edit';
 }
 
+/**
+ *  Call the editTeam function when is in the page "edit"
+ */
 $( document ).ready(function() {
   var pathname = window.location.pathname;
   if (pathname.substring(pathname.length - 5) == '/edit') {
@@ -255,6 +217,9 @@ $( document ).ready(function() {
   }
 });
 
+/**
+ * Print the team in edit page
+ */
 function editTeam(){
       var pathname = window.location.pathname;
       pathname = pathname.slice(0,-5);
@@ -308,23 +273,14 @@ function editTeam(){
 
 
 /**
- *
+ * Change name of a team selected
  */
 function changeName(){
-
   allName = [];
-
   for (var i = 0; i < localStorage.length; i++) {
-
     t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
     allName[i] = t[6].toString();
-
-    //console.log(t[6]);
   }
-
-
-
-
     name = $('#Team-card').attr("name");
     newteamID = $('#inpChangeName').val();
     oldname = $('#newName').text();
@@ -338,9 +294,6 @@ function changeName(){
         alert('Name already exist!');
         return;
     }
-
-
-
     newteamID = newteamID.split(' ');
     item = jQuery.parseJSON(localStorage.getItem(name));
     item[6] = newteamID;
@@ -352,47 +305,35 @@ function changeName(){
     location.href = '/team/'+newteamID+'/edit';
 }
 
-
+/**
+ * Get data of teams by the filtrer
+ */
 function getFiltrer(id){
-
   if (localStorage.length == 0) {
       $('.teamlist').empty();
       $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
-
   }else
-
   $(".teamlist").empty();
   $(".btnFilt").removeClass('active');
   $("#"+id).addClass( "active" );
   if ($(".btnFilt").hasClass("active") == false) {
     $(".btnFilt").css("background-color", "#ffc107");
   }
-  //$("#"+id).css("background-color", "red");
   var data = {};
   var teams2 = [];
   for (var i = 0; i < localStorage.length; i++) {
-
     t = jQuery.parseJSON(localStorage.getItem(localStorage.key(i)));
     teams2[i] = t;
     data[t[7]] = t;
-
   }
-
-
   teams2.sort(function(a,b){
-
   return new Date(b[7]) - new Date(a[7]);
-});
+  });
   teams2.reverse()
-
   vrb = 0;
   alltypes = [];
   new1 = [];
-
-
   for (var i = 0; i < teams2.length; i++) {
-
-
     teamName = teams2[i][6];
     img = [];
     experience = 0;
@@ -408,41 +349,26 @@ function getFiltrer(id){
         types.push(teams2[i + vrb][x][0].types + "\n");
         types2.push(teams2[i + vrb][x][0].types);
     }
-
-//////////////////////////////////////////////////////////////
-
     for (var x = 0; x < 6; x++) {
         alltypes.push(teams2[i][x][0].types);
-
     }
-
-
     for (var s = 0; s < alltypes.length; s++) {
-
       if (alltypes[s].includes(id) == true) {
           getTeamFiltrered(teamName, img,experience,types);
           break;
       }else {}
     }
-
     alltypes = [];
-
   }
-
-
     if (  $(".teamlist").is(':empty')) {
           $('.teamlist').append('<h1 style="text-align: center;">no team found</h1>');
     }
-
-
-
 }
 
-
+/**
+ * Print all teams filtrered
+ */
 function getTeamFiltrered(teamName, img,experience,types){
-
-
-
   var teamcard = '<div id="filtered" class="col-4 colTeam text-center">'+
         '<a class="aTeam" onclick="edit(id)" id="'+teamName+'"  href="#">'+
         '<div id="Team-card">'+
@@ -474,9 +400,5 @@ function getTeamFiltrered(teamName, img,experience,types){
 			  '</div>'+
         '</a>'+
         '</div>';
-
-
-
   $(".teamlist").append(teamcard);
-
 }
