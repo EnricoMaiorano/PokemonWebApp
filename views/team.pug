@@ -13,10 +13,30 @@ block content
   .container.cnt2
    .row.text-center.col-centered
      .col-12
-       input#inpName(placeholder='Team name')
+       input#inpName(placeholder='Team name' maxlength="20")
      .col-12
        button.btnGo(onclick="getPokemon()") Gotta Catch &apos;Em All
      .col-12.listTeam
 
      .col-12
       button.btnSave(onclick="saveTeam()" disabled) Save team
+      script.
+        $("input#inpName").on({
+            keydown: function(e) {
+              if (e.which === 32 || e.which === 190)
+                return false;
+            },
+            change: function() {
+              this.value = this.value.replace(/\s/g, "");
+            }
+            });
+        $('input#inpName').bind('input', function() {
+            var c = this.selectionStart,
+                r = /[^a-z0-9 .]/gi,
+                v = $(this).val();
+            if(r.test(v)) {
+              $(this).val(v.replace(r, ''));
+              c--;
+            }
+            this.setSelectionRange(c, c);
+          });
