@@ -257,17 +257,21 @@ footer {
   border: 2px
   solid !important;
   border-radius: 20px !important;
-  background-color: #ffc107 !important;
+  background-color: #ffc107;
   min-width: 100px;
 
 
 }
 
-.btnFilt.active {
-  background-color: red !important;
 
+.active{
+  background-color: red;
 }
 
 #myBtnContainer {
   max-width: 102%;
+}
+
+.cntList{
+  margin-bottom: 50px;
 }
