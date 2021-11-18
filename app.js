@@ -30,7 +30,9 @@ app.use('/', indexRouter);
 app.use('/team', usersRouter);
 
 
-
+app.listen(8080, () => {
+  console.log("Running port 3000");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
