@@ -27,23 +27,24 @@ When you create a team you can see the properties of every single pokemon that i
 ## How to Run
 
 * _Clone the repository to your desktop_
-*  _Open CMD_ 
+*  _Open CMD_
 *  _Navigate to the top level of the directory_
-*  To start the docker container and the app, run the following
+*  _To start the docker container and the app, run the following_
 
 ```bash
 docker compose up
 ```
+***_The deffault port is 3000, you can change this port in docker-compose.yml file._
 
 ## Routes
 
-  http://localhost:3000/                      # Home </br>
-  http://localhost:3000/team/create           # Page create team </br>
-  http://localhost:3000/team/list             # Team listing page </br>
-  http://localhost:3000/team/*/edit           # Team edit page  _*the name of the team_ </br>
+  Home page: http://localhost:3000/</br>
+  Page create team: http://localhost:3000/team/create</br>
+  Team listing page: http://localhost:3000/team/list</br>
+  Team edit page: http://localhost:3000/team/*/edit &nbsp;_*the name of the team_ </br>
 
 ## Files & directories
-    
+
     .
     ├── public                   
     │   ├── images              # Images file     
@@ -51,7 +52,30 @@ docker compose up
     │   ├── stylesheets         # Style file
     ├── routes                  # Javascripts files which contain the routes of website
     ├── views                   # Pug files which contain the HTML templates  
-    
 
 
-## The Web site
+
+## The Web Site
+
+### The Home page http://localhost:3000/
+Contain two button to get in create team page and teams listing page.
+
+![Home](https://user-images.githubusercontent.com/84178914/142489528-ccbf8410-835d-433a-a22d-5c7b1878d322.png)
+
+### The Create team page  http://localhost:3000/team/create   
+In this page you can chose the name of your team and add the pokemon by clicking the button "Gotta Catch 'Em All".
+6 pokemon will add in your team.
+
+![Create_your_team2](https://user-images.githubusercontent.com/84178914/142490178-43fe4c12-c02c-434f-a49d-9450bc3f31d8.png)
+
+### The Team listing page http://localhost:3000/team/list   
+
+In this page you can see all teams you have created, furthermore you can filtrer the teams by the types with the appropriate filter buttons.
+
+![Team_listing2](https://user-images.githubusercontent.com/84178914/142490689-c1c4549b-1683-4eb6-87b0-e3d7a634e7fb.png)
+
+### The edit page http://localhost:3000/team/*Name of your team*/edit
+
+In this page you can modify the name of the team or delete.
+
+![Edit](https://user-images.githubusercontent.com/84178914/142491266-d1dddad4-1ffd-494a-9015-649864850cf2.png)
