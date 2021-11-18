@@ -54,7 +54,6 @@ docker compose up
     ├── views                   # Pug files which contain the HTML templates  
 
 
-
 ## The Web Site
 
 ### The Home page http://localhost:3000/
