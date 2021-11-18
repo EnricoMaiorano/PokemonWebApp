@@ -73,7 +73,7 @@ In this page you can see all teams you have created, furthermore you can filtrer
 
 ![Team_listing2](https://user-images.githubusercontent.com/84178914/142490689-c1c4549b-1683-4eb6-87b0-e3d7a634e7fb.png)
 
-### The edit page http://localhost:3000/team/*Name of your team*/edit
+### The edit page http://localhost:3000/team/*/edit &nbsp;*the name of the team
 
 In this page you can modify the name of the team or delete.
 
