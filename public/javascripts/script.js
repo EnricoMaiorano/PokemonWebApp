@@ -215,7 +215,8 @@ if (pathname == '/team/list') {
  *  Set the pathname
  */
 function edit(id) {
-      window.location.href = 'http://localhost:3000/team/'+id+'/edit';
+      port =  location.port;
+      window.location.href = 'http://localhost:'+port+'/team/'+id+'/edit';
 }
 
 /**
@@ -263,9 +264,6 @@ function editTeam(){
         var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
         unique = unique.join(" , ");
       }
-
-
-
       var teamcard = '<div class="col-12 colTeam text-center" style="margin-top:50px;">'+
                      '<div id="Team-card" name="'+teamName+'">'+
                      '<h4 id="newName" style="text-align:center;margin-top:5px;">'+teamName+'</h4>'+
@@ -295,9 +293,28 @@ function editTeam(){
                      '</div>'+
                      '</div>'+
                      '</div>';
+
+
       $(".teamlist").after(teamcard);
+      var deleteBtn = '<button class="btnChange" style="margin-top:50px;font-size:20px;" id="'+pathname+'" onclick="deleteTeam(id)">Delete Team</button>'
+      $(".colTeam").append(deleteBtn);
+
+
 }
 
+/**
+ * Delete the team from the cache
+ */
+function deleteTeam(id){
+    var txt;
+    var r = confirm("Are you sure?");
+    if (r == true) {
+      localStorage.removeItem(id);
+      port =  location.port;
+      window.location.href = 'http://localhost:'+port+'/team/list';
+    } else {
+    }
+}
 
 /**
  * Change name of a team selected
@@ -372,13 +389,7 @@ function changeName(){
      }
      for (var s = 0; s < 6; s++) {
          experience += teams2[i + vrb][s][0].experience;
-     }/**
-     for (var x = 0; x < 6; x++) {
-         types.push(teams2[i + vrb][x][0].types + "\n");
-         types2.push(teams2[i + vrb][x][0].types);
-
-     }*/
-
+     }
      for (var x = 0; x < 6; x++) {
 
        types.push(teams2[i + vrb][x][0].types + "\n");
