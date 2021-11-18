@@ -1,4 +1,4 @@
-# PokemonApp
+# PokemonWebApp
 
 #### By _**Enrico Maiorano**_
 
