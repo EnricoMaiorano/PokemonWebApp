@@ -7,7 +7,7 @@
 ## Technologies used
 
 * Node.js
-* Javascript
+* JavaScript
 * jQuery
 * Pug
 * Html, css
